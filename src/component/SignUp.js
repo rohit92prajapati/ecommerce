@@ -46,82 +46,88 @@ export default function SignUp() {
 
   return (
     <Fragment>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="grid grid-rows-2  grid-flow-row gap-4 auto-cols-auto p-10 items-end w-1/2">
-          <div>User Name</div>
-          <div>
-            {" "}
-            <TextField
-              fullWidth
-              id="username"
-              name="username"
-              label="User Name"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-            />
+      <div className="flex justify-center">
+        <form onSubmit={formik.handleSubmit}>
+          <div className="grid grid-rows-2  grid-flow-row gap-4 auto-cols-auto p-10 items-end ">
+            <div>User Name</div>
+            <div>
+              {" "}
+              <TextField
+                fullWidth
+                id="username"
+                name="username"
+                label="User Name"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.username && Boolean(formik.errors.username)
+                }
+                helperText={formik.touched.username && formik.errors.username}
+              />
+            </div>
+            <div>Password</div>
+            <div>
+              <TextField
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+              />
+            </div>
+            <div>Email</div>
+            <div>
+              {" "}
+              <TextField
+                fullWidth
+                id="email"
+                name="email"
+                label="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+            </div>
+            <div>Address</div>
+            <div>
+              <TextField
+                fullWidth
+                id="address"
+                name="address"
+                label="Address"
+                value={formik.values.address}
+                onChange={formik.handleChange}
+                error={formik.touched.address && Boolean(formik.errors.address)}
+                helperText={formik.touched.address && formik.errors.address}
+              />
+            </div>
+            <div>Phone</div>
+            <div>
+              <TextField
+                fullWidth
+                id="phone"
+                name="phone"
+                label="phone"
+                value={formik.values.phone}
+                onChange={formik.handleChange}
+                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                helperText={formik.touched.phone && formik.errors.phone}
+              />
+            </div>
+            <div></div>
+            <Button color="primary" variant="contained" fullWidth type="submit">
+              Submit
+            </Button>
           </div>
-          <div>Password</div>
-          <div>
-            <TextField
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-          </div>
-          <div>Email</div>
-          <div>
-            {" "}
-            <TextField
-              fullWidth
-              id="email"
-              name="email"
-              label="Email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-          </div>
-          <div>Address</div>
-          <div>
-            <TextField
-              fullWidth
-              id="address"
-              name="address"
-              label="Address"
-              value={formik.values.address}
-              onChange={formik.handleChange}
-              error={formik.touched.address && Boolean(formik.errors.address)}
-              helperText={formik.touched.address && formik.errors.address}
-            />
-          </div>
-          <div>Phone</div>
-          <div>
-            <TextField
-              fullWidth
-              id="phone"
-              name="phone"
-              label="phone"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
-            />
-          </div>
-          <div></div>
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            Submit
-          </Button>
-        </div>
-      </form>
+        </form>
+      </div>
     </Fragment>
   );
 }

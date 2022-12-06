@@ -6,6 +6,7 @@ import ProductDetails from "./component/ProductDetails";
 import Navbar from "./component/Navbar";
 import SignUp from "./component/SignUp";
 import SignIn from "./component/SignIn";
+import AdminPage from "./component/AdminPage";
 function App() {
   return (
     <div>
@@ -16,6 +17,7 @@ function App() {
           <Route path="/productdetails/:id" element={<ProductDetails />} />
           <Route path="/usersignin" element={<SignIn />} />
           <Route path="/usersignup" element={<SignUp />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -32,43 +32,49 @@ export default function SignIn() {
 
   return (
     <Fragment>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="grid grid-rows-2  grid-flow-row gap-4 auto-cols-auto p-10 items-end w-1/2">
-          <div>User Name</div>
-          <div>
-            {" "}
-            <TextField
-              fullWidth
-              id="username"
-              name="username"
-              label="User Name"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={formik.touched.username && formik.errors.username}
-            />
-          </div>
-          <div>Password</div>
-          <div>
-            <TextField
-              fullWidth
-              id="password"
-              name="password"
-              label="Password"
-              type="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-          </div>
+      <div className="flex justify-center">
+        <form onSubmit={formik.handleSubmit}>
+          <div className="grid grid-rows-2  grid-flow-row gap-4 auto-cols-auto p-10 items-end ">
+            <div>User Name</div>
+            <div>
+              {" "}
+              <TextField
+                fullWidth
+                id="username"
+                name="username"
+                label="User Name"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.username && Boolean(formik.errors.username)
+                }
+                helperText={formik.touched.username && formik.errors.username}
+              />
+            </div>
+            <div>Password</div>
+            <div>
+              <TextField
+                fullWidth
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
+              />
+            </div>
 
-          <div></div>
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            Sign In
-          </Button>
-        </div>
-      </form>
+            <div></div>
+            <Button color="primary" variant="contained" fullWidth type="submit">
+              Sign In
+            </Button>
+          </div>
+        </form>
+      </div>
     </Fragment>
   );
 }
