@@ -13,7 +13,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import AddProduct from "./AddProduct";
 import { useSelector, useDispatch } from "react-redux";
-import { filteraddProduct } from "../redux/counterSlice";
+import { filteraddProduct, filterclearProduct } from "../redux/counterSlice";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -52,22 +52,40 @@ export default function AdminPage() {
   }, []);
   const dispatch = useDispatch();
   const addProduct = useSelector((state) => state.filterProduct.addProducts);
-  const [productId,setProductId]=useState('');
+  const [productId, setProductId] = useState("");
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [title, setTitle] = useState("");
 
-  const deletProduct=async(id)=>{
-    const response=await axios.delete(`https://fakestoreapi.com/products/${id}`)
-    console.log('delete',response.data)
-  }
+  const deletProduct = async (id) => {
+    const response = await axios.delete(
+      `https://fakestoreapi.com/products/${id}`
+    );
+    console.log("delete", response.data);
+    const deletdProduct = addProduct
+      .map((el) => {
+        if (el.id != id) {
+          return el;
+        }
+      })
+      .filter((n) => n);
+    console.log("updatedProduct", deletdProduct);
+    dispatch(filterclearProduct());
+    dispatch(filteraddProduct(deletdProduct));
+  };
 
   console.log(("add", addProduct));
   return (
     <Fragment>
       <div className="p-10">
+        <div>
+          <Typography variant="h4" component="h4" className="mb-5">
+            Admin Panel
+          </Typography>
+          <hr></hr>
+        </div>
         <div className="flex justify-end">
           {" "}
           <Button
@@ -86,12 +104,12 @@ export default function AdminPage() {
             <TableHead>
               <TableRow>
                 <TableCell>Title</TableCell>
-                <TableCell align="right">Price</TableCell>
-                <TableCell align="right">Description</TableCell>
-                <TableCell align="right">Image</TableCell>
-                <TableCell align="right">Category</TableCell>
-                <TableCell align="right">Update</TableCell>
-                <TableCell align="right">Delete</TableCell>
+                <TableCell align="center">Price</TableCell>
+                <TableCell align="center">Description</TableCell>
+                <TableCell align="center">Image</TableCell>
+                <TableCell align="center">Category</TableCell>
+                <TableCell align="center">Update</TableCell>
+                <TableCell align="center">Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -105,14 +123,26 @@ export default function AdminPage() {
                   <TableCell align="left">{row.image}</TableCell>
                   <TableCell align="left">{row.category}</TableCell>
                   <TableCell align="left">
-                    <Button variant="text" onClick={() => {
-              setTitle("UPDATE PRODUCT");
-              setProductId(row.id)
-              handleOpen();
-            }}>Update</Button>
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        setTitle("UPDATE PRODUCT");
+                        setProductId(row.id);
+                        handleOpen();
+                      }}
+                    >
+                      Update
+                    </Button>
                   </TableCell>
                   <TableCell align="left">
-                    <Button variant="text" onClick={()=>{deletProduct(row.id)}}>Delete</Button>
+                    <Button
+                      variant="text"
+                      onClick={() => {
+                        deletProduct(row.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -128,7 +158,11 @@ export default function AdminPage() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddProduct onClose={handleClose} title={title} productId={productId}/>
+          <AddProduct
+            onClose={handleClose}
+            title={title}
+            productId={productId}
+          />
         </Box>
       </Modal>
     </Fragment>

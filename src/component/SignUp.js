@@ -4,6 +4,10 @@ import * as yup from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { filterusers } from "../redux/counterSlice";
+import { useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
 
 const validationSchema = yup.object({
   email: yup
@@ -26,6 +30,9 @@ const validationSchema = yup.object({
 });
 
 export default function SignUp() {
+  let navigate = useNavigate();
+  const addusers = useSelector((state) => state.filterProduct.users);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -40,15 +47,23 @@ export default function SignUp() {
         "https://fakestoreapi.com/users",
         values
       );
-      alert(JSON.stringify(values, null, 2));
+      console.log("response", response.data);
+      dispatch(filterusers(response.data));
+      navigate("/usersignin");
     },
   });
-
+  console.log("user", addusers);
   return (
     <Fragment>
       <div className="flex justify-center">
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-rows-2  grid-flow-row gap-4 auto-cols-auto p-10 items-end ">
+            <div>
+              <Typography variant="h4" component="h4" className="mb-5">
+                Sign Up
+              </Typography>
+              <hr></hr>
+            </div>
             <div>User Name</div>
             <div>
               {" "}

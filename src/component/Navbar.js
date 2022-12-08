@@ -26,6 +26,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -68,6 +70,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  let navigate = useNavigate();
   const [anchorEls, setAnchorEls] = React.useState(null);
   const open = Boolean(anchorEls);
   const handleClick = (event) => {
@@ -78,7 +81,9 @@ export default function Navbar() {
   };
 
   const dispatch = useDispatch();
-  const cartData = useSelector((state) => state.filterProduct.products);
+  const cartData = useSelector((state) => state.filterProduct.cart);
+  const loginState = useSelector((state) => state.filterProduct.login);
+  console.log("login", loginState);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -195,7 +200,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            My E-commerce
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -208,117 +213,136 @@ export default function Navbar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge
-                badgeContent={cartData.length !== 0 ? cartData.length : 0}
-                color="error"
-              >
-                <AddShoppingCartIcon onClick={handleClick} />
-              </Badge>
-              <Menu
-                anchorEl={anchorEls}
-                id="account-menu"
-                open={open}
-                onClose={handleClose}
-                onClick={handleClose}
-                PaperProps={{
-                  elevation: 0,
-                  sx: {
-                    overflow: "visible",
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
-                    "& .MuiAvatar-root": {
-                      width: 32,
-                      height: 32,
-                      ml: -0.5,
-                      mr: 1,
-                    },
-                    "&:before": {
-                      content: '""',
-                      display: "block",
-                      position: "absolute",
-                      top: 0,
-                      right: 14,
-                      width: 10,
-                      height: 10,
-                      bgcolor: "background.paper",
-                      transform: "translateY(-50%) rotate(45deg)",
-                      zIndex: 0,
-                    },
-                  },
-                }}
-                transformOrigin={{ horizontal: "right", vertical: "top" }}
-                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-              >
-                {cartData.length !== 0
-                  ? cartData.map((el) => {
-                      return (
-                        <MenuItem>
-                          <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                              <Avatar alt="Remy Sharp" src={el.image} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary={el.title}
-                              secondary={
-                                <React.Fragment>
-                                  <Typography
-                                    sx={{ display: "inline" }}
-                                    component="span"
-                                    variant="body2"
-                                    color="text.primary"
-                                  >
-                                    Price:
-                                  </Typography>
+            {!loginState ? (
+              <React.Fragment>
+                <Button
+                  color="inherit"
+                  className="mr-5"
+                  onClick={() => {
+                    navigate("/usersignin");
+                  }}
+                >
+                  Sign In
+                </Button>
+                <Button
+                  color="inherit"
+                  className="mr-5"
+                  onClick={() => {
+                    navigate("/usersignup");
+                  }}
+                >
+                  Sign Up
+                </Button>
 
-                                  {`${el.price}$`}
-                                </React.Fragment>
-                              }
-                            />
-                          </ListItem>
-                          <Divider variant="inset" component="li" />
-                        </MenuItem>
-                      );
-                    })
-                  : ""}
-              </Menu>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    navigate("/admin");
+                  }}
+                >
+                  Admin Panel
+                </Button>
+              </React.Fragment>
+            ) : (
+              ""
+            )}
+
+            {loginState ? (
+              <React.Fragment>
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge
+                    badgeContent={cartData.length !== 0 ? cartData.length : 0}
+                    color="error"
+                  >
+                    <AddShoppingCartIcon onClick={handleClick} />
+                  </Badge>
+                  <Menu
+                    anchorEl={anchorEls}
+                    id="account-menu"
+                    open={open}
+                    onClose={handleClose}
+                    onClick={handleClose}
+                    PaperProps={{
+                      elevation: 0,
+                      sx: {
+                        overflow: "visible",
+                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                        mt: 1.5,
+                        "& .MuiAvatar-root": {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
+                        },
+                        "&:before": {
+                          content: '""',
+                          display: "block",
+                          position: "absolute",
+                          top: 0,
+                          right: 14,
+                          width: 10,
+                          height: 10,
+                          bgcolor: "background.paper",
+                          transform: "translateY(-50%) rotate(45deg)",
+                          zIndex: 0,
+                        },
+                      },
+                    }}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  >
+                    {cartData.length !== 0
+                      ? cartData.map((el) => {
+                          return (
+                            <MenuItem>
+                              <ListItem alignItems="flex-start">
+                                <ListItemAvatar>
+                                  <Avatar alt="Remy Sharp" src={el.image} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                  primary={el.title}
+                                  secondary={
+                                    <React.Fragment>
+                                      <Typography
+                                        sx={{ display: "inline" }}
+                                        component="span"
+                                        variant="body2"
+                                        color="text.primary"
+                                      >
+                                        Price:
+                                      </Typography>
+
+                                      {`${el.price}$`}
+                                    </React.Fragment>
+                                  }
+                                />
+                              </ListItem>
+                              <Divider variant="inset" component="li" />
+                            </MenuItem>
+                          );
+                        })
+                      : ""}
+                  </Menu>
+                </IconButton>{" "}
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>{" "}
+              </React.Fragment>
+            ) : (
+              ""
+            )}
           </Box>
         </Toolbar>
       </AppBar>

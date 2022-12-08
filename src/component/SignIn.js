@@ -4,6 +4,10 @@ import * as yup from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
+import { filterusers, filterlogin } from "../redux/counterSlice";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import Typography from "@mui/material/Typography";
 
 const validationSchema = yup.object({
   username: yup.string("Enter your usename").required("User Name is required"),
@@ -14,6 +18,10 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 export default function SignIn() {
+  let navigate = useNavigate();
+  const addusers = useSelector((state) => state.filterProduct.users);
+  console.log("addusers", addusers);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -26,7 +34,11 @@ export default function SignIn() {
         "https://fakestoreapi.com/auth/login",
         values
       );
-      alert(JSON.stringify(values, null, 2));
+      console.log("userlogin details", response.data);
+      if (response.data) {
+        dispatch(filterlogin(true));
+        navigate("/productpage");
+      }
     },
   });
 
@@ -35,6 +47,12 @@ export default function SignIn() {
       <div className="flex justify-center">
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-rows-2  grid-flow-row gap-4 auto-cols-auto p-10 items-end ">
+            <div>
+              <Typography variant="h4" component="h4" className="mb-5">
+                Sign In
+              </Typography>
+              <hr></hr>
+            </div>
             <div>User Name</div>
             <div>
               {" "}
