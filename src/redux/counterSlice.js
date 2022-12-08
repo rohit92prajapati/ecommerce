@@ -15,9 +15,12 @@ export const counterSlice = createSlice({
     filteraddProduct: (state, action) => {
       state.addProducts = [...action.payload, ...state.addProducts];
     },
+    filterclearProduct:(state)=>{
+      state.addProducts=[]
+    }
   },
 });
 
-export const { filterProducts, filteraddProduct } = counterSlice.actions;
+export const { filterProducts, filteraddProduct,filterclearProduct } = counterSlice.actions;
 
 export default counterSlice.reducer;

@@ -52,11 +52,17 @@ export default function AdminPage() {
   }, []);
   const dispatch = useDispatch();
   const addProduct = useSelector((state) => state.filterProduct.addProducts);
+  const [productId,setProductId]=useState('');
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [title, setTitle] = useState("");
+
+  const deletProduct=async(id)=>{
+    const response=await axios.delete(`https://fakestoreapi.com/products/${id}`)
+    console.log('delete',response.data)
+  }
 
   console.log(("add", addProduct));
   return (
@@ -99,10 +105,14 @@ export default function AdminPage() {
                   <TableCell align="left">{row.image}</TableCell>
                   <TableCell align="left">{row.category}</TableCell>
                   <TableCell align="left">
-                    <Button variant="text">Update</Button>
+                    <Button variant="text" onClick={() => {
+              setTitle("UPDATE PRODUCT");
+              setProductId(row.id)
+              handleOpen();
+            }}>Update</Button>
                   </TableCell>
                   <TableCell align="left">
-                    <Button variant="text">Delete</Button>
+                    <Button variant="text" onClick={()=>{deletProduct(row.id)}}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -118,7 +128,7 @@ export default function AdminPage() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddProduct onClose={handleClose} title={title} />
+          <AddProduct onClose={handleClose} title={title} productId={productId}/>
         </Box>
       </Modal>
     </Fragment>
