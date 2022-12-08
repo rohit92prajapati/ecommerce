@@ -5,6 +5,7 @@ const initialState = {
   addProducts: [],
   users: [],
   cart: [],
+  searchProduct: [],
   login: false,
 };
 
@@ -27,6 +28,9 @@ export const counterSlice = createSlice({
     filterlogin: (state, action) => {
       state.login = action.payload;
     },
+    filtersearchproduct: (state, action) => {
+      state.searchProduct = action.payload;
+    },
   },
 });
 
@@ -37,6 +41,7 @@ export const {
   filterusers,
   filtercart,
   filterlogin,
+  filtersearchproduct,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
